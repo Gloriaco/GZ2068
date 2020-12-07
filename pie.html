@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  canvas {
+    border: 1px solid red;
+  }
+</style>
+
+<body>
+  <canvas width="600" height="400">
+    你的浏览器不支持canvas
+  </canvas>
+
+</body>
+<script>
+  // 绘制小矩形
+  var mycanvas = document.querySelector("canvas");
+
+  var ctr = mycanvas.getContext("2d");
+
+  // 获取随机颜色
+  function getRandomColor() {
+    var red = Math.floor(Math.random() * 256);
+    var green = Math.floor(Math.random() * 256);
+    var blue = Math.floor(Math.random() * 256);
+
+    return `rgb(${red},${green},${blue})`;
+
+  }
+
+  // function getRandomNum(min, max) {
+  //   return Math.floor(Math.random() * (max - min + 1) + min);
+  // }
+  // console.log(getRandomColor());
+  var ages = {
+    "15-20岁": 12,
+    "20-25岁": 34,
+    "25-30岁": 22,
+    "30岁以上": 7
+  }
+  // var ages = [4,5,6,7];
+
+  // 保存弧度
+  var data = [];
+  var sum = 0
+  // 总人数
+  // for(var i = 0;i < ages.length;i++){
+  //   sum += ages[i];
+  // }
+  for (attr in ages) {
+    sum += ages[attr];
+  }
+  for (attr in ages) {
+    var angle = 2 * Math.PI * (ages[attr] / sum);
+    data.push(angle);
+  }
+
+  console.log(data)
+  console.log(sum);
+
+  var colors = [];
+  var startAngle = 0;
+  for (var j = 0; j < data.length; j++) {
+
+    var endAngle = startAngle + data[j];
+    ctr.beginPath();
+    ctr.moveTo(350, 200);
+    ctr.arc(350, 200, 150, startAngle, endAngle);
+    var c = getRandomColor()
+    colors.push(c);
+    ctr.fillStyle = c;
+    ctr.fill();
+    ctr.arc(350, 200, 150, startAngle, endAngle);
+    ctr.arc(350, 200, 150, startAngle, endAngle);
+    startAngle = endAngle;
+
+  }
+  console.log(colors);
+  // 标记
+  var n = 0;
+  for (attr in ages) {
+    ctr.beginPath();
+    ctr.fillRect(50, 50 * (n + 1), 30, 20);
+    // ctr.textAlign = ""
+    ctr.textBaseline = "middle";
+    // ctr.textBaseline = "alphabetic";
+
+    ctr.fillText(attr, 100, 55 * (n + 1));
+    ctr.fillStyle = colors[n];
+    n++;
+    // ctr.beginPath();
+    
+  }
+
+</script>
+
+</html>
